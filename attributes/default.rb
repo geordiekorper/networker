@@ -35,3 +35,5 @@ when 'rhel'
   default['nw']['client']['path'] = '/tmp/omnibus/cache/linux_x86_64'
   default['nw']['client']['package'] = 'lgtoclnt-9.1.0.2-1.x86_64.rpm'
 end
+default['nw']['client']['saveset'] = 'All'
+default['nw']['client']['group'] = 'Default'

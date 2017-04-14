@@ -23,3 +23,7 @@ when 'rhel'
     action :nothing
   end
 end
+
+# TODO: Copy nsradmin response file to client
+# TODO: Execute nsradmin using response file as input
+# TODO: Write guard to ensure we're not creating duplicate clients in NetWorker
