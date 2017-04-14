@@ -4,23 +4,53 @@ driver:
 
 provisioner:
   name: chef_zero
-  # You may wish to disable always updating cookbooks in CI or other testing environments.
-  # For example:
-  #   always_update_cookbooks: <%= !ENV['CI'] %>
   always_update_cookbooks: true
 
 verifier:
   name: inspec
 
 platforms:
-  - name: ubuntu-16.04
   - name: centos-7.2
+  - name: mwrock/Windows2012R2
+    transport:
+      name: winrm
+      elevated: true
 
 suites:
-  - name: default
+  - name: server
+    excludes: mwrock/Windows2012R2
     run_list:
-      - recipe[networker::default]
+      - recipe[networker::hosts]
+      - recipe[networker::server]
+      - recipe[networker::nmc]
     verifier:
       inspec_tests:
         - test/smoke/default
     attributes:
+    driver:
+      network:
+        - ['private_network', {ip: '10.10.10.10'}]
+  - name: client
+    excludes: mwrock/Windows2012R2
+    run_list:
+      - recipe[networker::hosts]
+      - recipe[networker::client]
+    verifier:
+      inspec_tests:
+        - test/smoke/default
+    attributes:
+    driver:
+      network:
+        - ['private_network', {ip: '10.10.10.20'}]
+  - name: client
+    excludes: centos-7.2
+    run_list:
+      - recipe[networker::hosts]
+      - recipe[networker::client]
+    verifier:
+      inspec_tests:
+        - test/smoke/default
+    attributes:
+    driver:
+      network:
+        - ['private_network', {ip: '10.10.10.30'}]
