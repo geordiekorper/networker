@@ -24,6 +24,13 @@ when 'rhel'
   end
 end
 
-# TODO: Copy nsradmin response file to client
-# TODO: Execute nsradmin using response file as input
 # TODO: Write guard to ensure we're not creating duplicate clients in NetWorker
+
+puts "hostname: #{node['hostname']}"
+
+networker 'create_client' do
+  client_name node['hostname'].to_s
+  # save_sets node['nw']['client']['savesets']
+  # protection_groups node['nw']['client']['protection_groups']
+  only_if { node['nw']['client']['create'] }
+end
