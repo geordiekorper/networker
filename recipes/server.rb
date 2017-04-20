@@ -39,3 +39,6 @@ end
 service 'networker' do
   action :start
 end
+
+# Create a directory to use as a test AFTD device
+directory '/test_device'
