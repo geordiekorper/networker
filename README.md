@@ -127,5 +127,3 @@ Default ProtectionGroups have names of <policy>-<workflow>; however that is not 
 ## Resource Overview
 
 ### networker
-
-## networker::server
