@@ -17,11 +17,11 @@ This cookbook is concerned with Dell/EMC corporation's proprietary commercial da
 
 The following platforms have been tested with Test Kitchen:
 
-NetWorker Server:
+#### NetWorker Server:
 
 * CentOS-7.2
 
-NetWorker Client:
+#### NetWorker Client:
 
 * CentOS-7.2
 
@@ -34,7 +34,7 @@ This cookbook has the following dependencies:
 
 ## Usage
 
-Place a dependency on the `networker` cookbook in your cookbook's `metadata.rb`
+Place a dependency on the `networker` cookbook in your cookbook's `metadata.rb`:
 
 ```Ruby
 depends 'networker`
@@ -57,7 +57,7 @@ This will create a client named `my-client.foo.bar` on the NetWorker server `net
 ## Attributes
 See `attributes/default.rb` for default values.
 
-Prerequisite Attributes:
+### Prerequisite Attributes
 
 * `default['java']['jdk_version']` - JRE (specifically v8) is a prerequisite for the NMC
 
