@@ -44,25 +44,50 @@ action :create do
       # Send the request
       response = http.request(request)
 
-      # 201 means success
-      return 0 unless response.code != 201
+      response.code
+
     end
   end
 end
 
 action :backup do
   puts
-  Chef::Log.warn("Starting initial backup: #{client_name} #{protection_groups} #{server_name}.")
+  Chef::Log.warn("Starting initial backup: #{client_name} #{protection_groups} #{server_name}")
 
-  # TODO: Stuff to initate an initial, on-demand backup
+  converge_by("Starting initial backup of client #{client_name} on NetWorker server #{server_name}") do
 
+    uri = URI.parse("#{node['nw']['api']['uri']}/global/protectionpolicies/#{node['nw']['client']['policy']}/workflows/#{node['nw']['client']['workflow']}/op/backup")
+
+    token = Base64.encode64("#{node['nw']['api']['user']}:#{node['nw']['api']['pwd']}")
+
+    header = {
+      'Content-Type' => 'application/json',
+      'Authorization' => "Basic #{token}",
+    }
+
+    message = {
+      'clients' => [client_name.to_s],
+    }
+
+    # Create the HTTP objects
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE # This is bad! You should use a valid cert and verify it
+    request = Net::HTTP::Post.new(uri.request_uri, header)
+    request.body = message.to_json
+
+    # Send the request
+    response = http.request(request)
+
+    response.code
+
+  end
 end
 
 action_class.class_eval do
   def client_exists?
     # TODO: Code that actually checks if #{client_name} exists on #{server_name}
     uri = URI.parse("#{node['nw']['api']['uri']}/global/clients?fl=aliases,hostname,savesets,protectiongroups&q=hostname:#{client_name}")
-    # uri = URI.parse("#{node['nw']['api']['uri']}/global/clients?fl=aliases,hostname,savesets,protectiongroups")
     token = Base64.encode64("#{node['nw']['api']['user']}:#{node['nw']['api']['pwd']}")
 
     header = {
