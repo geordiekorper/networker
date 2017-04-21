@@ -31,14 +31,14 @@ networker 'create_client' do
   save_sets node['nw']['client']['savesets']
   protection_groups node['nw']['client']['protection_groups']
   action :create
-  notifies :backup, 'networker[initial_backup]', :delayed
+  notifies :backup, 'networker[do_backup]', :delayed
   only_if { node['nw']['client']['create'] }
 end
 
-networker 'initial_backup' do
+networker 'do_backup' do
   client_name node['hostname'].to_s
   save_sets node['nw']['client']['savesets']
   protection_groups node['nw']['client']['protection_groups']
   action :nothing
-  only_if { node['nw']['client']['initial_backup'] }
+  only_if { node['nw']['client']['do_backup'] }
 end

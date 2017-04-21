@@ -36,7 +36,7 @@ when 'rhel'
   default['nw']['client']['package'] = 'lgtoclnt-9.1.0.2-1.x86_64.rpm'
 end
 default['nw']['client']['create'] = true
-default['nw']['client']['initial_backup'] = true
+default['nw']['client']['do_backup'] = true
 default['nw']['client']['savesets'] = ['All']
 # Default ProtectionGroups have names of <policy>-<workflow>; however that
 # is not guaranteed to be true so we provide attributes for all three
