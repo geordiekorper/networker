@@ -30,5 +30,15 @@ networker 'create_client' do
   client_name node['hostname'].to_s
   save_sets node['nw']['client']['savesets']
   protection_groups node['nw']['client']['protection_groups']
+  action :create
+  notifies :backup, 'networker[initial_backup]', :delayed
   only_if { node['nw']['client']['create'] }
+end
+
+networker 'initial_backup' do
+  client_name node['hostname'].to_s
+  save_sets node['nw']['client']['savesets']
+  protection_groups node['nw']['client']['protection_groups']
+  action :nothing
+  only_if { node['nw']['client']['initial_backup'] }
 end
