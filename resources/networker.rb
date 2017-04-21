@@ -51,10 +51,7 @@ action :create do
 end
 
 action :backup do
-  puts
-  Chef::Log.warn("Starting initial backup: #{client_name} #{protection_groups} #{server_name}")
-
-  converge_by("Starting initial backup of client #{client_name} on NetWorker server #{server_name}") do
+  converge_by("Starting requested backup of client #{client_name} on NetWorker server #{server_name}") do
 
     uri = URI.parse("#{node['nw']['api']['uri']}/global/protectionpolicies/#{node['nw']['client']['policy']}/workflows/#{node['nw']['client']['workflow']}/op/backup")
 
