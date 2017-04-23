@@ -1,9 +1,11 @@
 resource_name :networker
 
-property :client_name, String
+property :client_name, String, default: node['hostname']
 property :server_name, String, default: node['nw']['api']['server']
 property :save_sets, Array
 property :protection_groups, Array
+property :policy, String, default: node['nw']['client']['policy']
+property :workflow, String, default: node['nw']['client']['workflow']
 
 default_action :create
 
@@ -53,7 +55,7 @@ end
 action :backup do
   converge_by("Starting requested backup of client #{client_name} on NetWorker server #{server_name}") do
 
-    uri = URI.parse("#{node['nw']['api']['uri']}/global/protectionpolicies/#{node['nw']['client']['policy']}/workflows/#{node['nw']['client']['workflow']}/op/backup")
+    uri = URI.parse("#{node['nw']['api']['uri']}/global/protectionpolicies/#{policy}/workflows/#{workflow}/op/backup")
 
     token = Base64.encode64("#{node['nw']['api']['user']}:#{node['nw']['api']['pwd']}")
 

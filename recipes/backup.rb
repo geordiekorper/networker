@@ -6,7 +6,7 @@
 
 networker 'do_backup' do
   client_name node['hostname'].to_s
-  save_sets node['nw']['client']['savesets']
-  protection_groups node['nw']['client']['protection_groups']
+  policy node['nw']['client']['policy'].to_s
+  workflow node['nw']['client']['workflow'].to_s
   action :backup
 end
