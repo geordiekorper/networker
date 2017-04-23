@@ -4,9 +4,13 @@ The NetWorker Cookbook is both a regular and library cookbook.  It provides a `n
 
 Additionally, the cookbook provides sample recipes for using the custom resource.  These recipes are heavily attribute driven.
 
+Pull requests are gladly accepted!
+
 ## Scope
 
 This cookbook is concerned with Dell/EMC corporation's proprietary commercial data protection software called NetWorker.  This software which must be procured directly from Dell/EMC.
+
+This cookbook only installs basic client software.  Specialty modules such as NMDA and NMM are currently out of scope.  Configuration of many NetWorker Server items such as devices, media pools, volumes, etc are also currently out of scope.
 
 ## Requirements
 
@@ -114,16 +118,71 @@ Default ProtectionGroups have names of <policy>-<workflow>; however that is not 
 
 ### default
 
+This recipe does nothing.
+
 ### hosts
+
+This recipe is only for use with Test Kitchen.  In order to have a complete envrionment for testing, all systems must be able to communicate with one another.  Hosts file entries are the easiest way to accomplish this.  Modify as needed for your environment.
 
 ### server
 
+Installs and configures the necessary NetWorker server software packages.
+
 ### nmc
+
+Installs the NMC.  Note that one manual step is currently required in order for the NMC to run.  This is due to an issue with the `/opt/lgtonmc/bin/nmc_config` script.  Documentation indicates that a `-slient` option is available for use with a response file.  However, the format of that file is not documented anywhere by Dell/EMC.  This will be fixed as soon as the information is available.
+
+Until that fix is complete, the `/opt/lgtonmc/bin/nmc_config` script must be run manually on the server to complete configuration.  The REST API will not be available for use until this step is completed.
+
+Please note that this cookbook does not curently configure items such as groups, devices, pools, etc. on the NetWorker server.
 
 ### client
 
+Use to install the necessary client software on a client system.  This currently contains some logic to support multiple platforms but that functionality is not complete.
+
+If `node['nw']['client']['create']` is set to `true`, then the recipe will use the NW REST API to create a client entry on the NW server.  This client will be called `node['hostname']` by default.  See the remainder of the `node['nw']['client']...` attributes to set items such as savesets and protection groups.
+
+Additionally, if `node['nw']['client']['do_backup']` is `true`, the client will perform an initial backup.
+
 ### backup
 
-## Resource Overview
+Use to kick off an ad-hoc backup of a node.  This recipe does NOT make use of the `node['nw']['client']['do_backup']` attribute.
+
+## Resources
 
 ### networker
+
+This is the main resource that provides the `networker` custom resource.
+
+#### Actions
+
+`:create`: Creates a client entry on the NetWorker server.
+`:backup`: Initiate an ad-hoc backup of the client
+
+#### Attribute Parameters
+
+`client_name`: A string specifying the name of the client resource to create
+`server_name`: A string specifying the name of the NW server on which to create the client
+`save_sets`: An array of savesets for the client.  Can also be specified as `"All"` but must be passed as an array.
+`protection_groups`: An array of protection groups for the client.
+
+#### Examples
+
+```Ruby
+networker 'create_client' do
+  client_name 'bilbo.middleearth.com'
+  save_sets ['/rings`,`/sting`]
+  protection_groups [`Gold-Dwarf-Friends`, `Platinum-Gandalf-Friends`]
+  action :create
+end
+```
+
+```Ruby
+networker 'create_client' do
+  client_name 'bilbo.middleearth.com'
+  policy 'Gold'
+  workflow 'Dwarf-Friends'
+  action :backup
+end
+```
+
