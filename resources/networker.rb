@@ -34,6 +34,7 @@ action :create do
         'hostname' => client_name.to_s,
         'saveSets' => save_sets,
         'protectionGroups' => protection_groups,
+        'comment' => 'CREATED BY CHEF',
       }
 
       # Create the HTTP objects
