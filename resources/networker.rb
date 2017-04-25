@@ -6,6 +6,7 @@ property :save_sets, Array
 property :protection_groups, Array
 property :policy, String, default: node['nw']['client']['policy']
 property :workflow, String, default: node['nw']['client']['workflow']
+property :comment, String, default: 'CREATED BY CHEF'
 
 default_action :create
 
@@ -34,7 +35,7 @@ action :create do
         'hostname' => client_name.to_s,
         'saveSets' => save_sets,
         'protectionGroups' => protection_groups,
-        'comment' => 'CREATED BY CHEF',
+        'comment' => comment,
       }
 
       # Create the HTTP objects
