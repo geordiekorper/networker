@@ -25,10 +25,15 @@ end
 template "#{Chef::Config[:file_cache_path]}/nmc_config_response" do
   source 'nmc_config_response.erb'
   action :create
-#  notifies :run, 'execute[configure_nmc]', :immediately
 end
 
-# execute 'configure_nmc' do
-#   command "/opt/lgtonmc/bin/nmc_config -silent #{Chef::Config[:file_cache_path]}/nmc_config_response"
-#   action :run
-# end
+execute 'configure_nmc' do
+  command "/opt/lgtonmc/bin/nmc_config -silent #{Chef::Config[:file_cache_path]}/nmc_config_response"
+  action :run
+  only_if { ::File.exist?('/opt/lgtonmc/bin/nmc_config') }
+  notifies :start, 'service[gst]', :immediately
+end
+
+service 'gst' do
+  action :nothing
+end

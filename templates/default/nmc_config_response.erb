@@ -1,3 +1,12 @@
-DBUsername=<%= node['nw']['nmc']['db_user'] %>
-DBPassword=<%= node['nw']['nmc']['db_pwd'] %>
-AuthHost=<%= node['nw']['nmc']['authhost'] %>
+LGTO_CREATEDBUSER=<%= node['nw']['nmc']['create_db_user'] %>
+LGTO_DBUSER=<%= node['nw']['nmc']['db_user'] %>
+LGTO_HTTPUSER=<%= node['nw']['nmc']['httpd_user'] %>
+LGTO_HTTPGROUP=<%= node['nw']['nmc']['httpd_group'] %>
+LGTO_HTTPPORT=<%= node['nw']['nmc']['httpd_port'] %>
+LGTO_DBSRVPORT=<%= node['nw']['nmc']['db_port'] %>
+LGTO_GSTPORT=<%= node['nw']['nmc']['gst_port'] %>
+LGTO_OVERWRITE=<%= node['nw']['nmc']['overwrite_nmcdb'] %>
+LGTO_DATADIR=<%= node['nw']['nmc']['db_path'] %>
+LGTO_AUTHHOST=<%= node['nw']['nmc']['authhost'] %>
+LGTO_AUTHPORT=<%= node['nw']['nmc']['auth_port'] %>
+LGTO_KEEPBOOT=<%= node['nw']['nmc']['restart_services'] %>

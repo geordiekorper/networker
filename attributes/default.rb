@@ -21,10 +21,20 @@ default['nw']['emc_datadir'] = '/nsr/authc/data'
 
 # NetWorker Management Console default attributes
 default['nw']['nmc']['package'] = 'lgtonmc-9.1.0.2-1.x86_64.rpm'
+default['nw']['nmc']['create_db_user'] = 'N'
 default['nw']['nmc']['db_user'] = 'postgres'
-default['nw']['nmc']['db_group'] = 'postgres'
 default['nw']['nmc']['db_pwd'] = 'Cod3Can!' # Change or vault this!
+default['nw']['nmc']['db_group'] = 'postgres'
+default['nw']['nmc']['httpd_user'] = 'nobody'
+default['nw']['nmc']['httpd_group'] = 'nobody'
+default['nw']['nmc']['httpd_port'] = 9000
+default['nw']['nmc']['db_port'] = 5432
+default['nw']['nmc']['gst_port'] = 9001
+default['nw']['nmc']['overwrite_nmcdb'] = 'N'
+default['nw']['nmc']['db_path'] = '/nsr/nmc/nmcdb'
 default['nw']['nmc']['authhost'] = 'server-centos-72'
+default['nw']['nmc']['auth_port'] = default['nw']['emc_tcport']
+default['nw']['nmc']['restart_services'] = 'N'
 
 # NetWorker Client install default attributes
 case node['platform_family']
