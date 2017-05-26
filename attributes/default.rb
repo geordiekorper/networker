@@ -2,7 +2,7 @@
 default['java']['jdk_version'] = 8
 
 # NetWorker install default attributes
-default['nw']['install_source'] = '/tmp/omnibus/cache/linux_x86_64'
+default['nw']['install_source'] = '/tmp/omnibus/cache/networker/linux_x86_64'
 default['nw']['server_packages'] = ['lgtoclnt-9.1.0.2-1.x86_64.rpm',
                                     'lgtoxtdclnt-9.1.0.2-1.x86_64.rpm',
                                     'lgtonode-9.1.0.2-1.x86_64.rpm',
@@ -39,10 +39,10 @@ default['nw']['nmc']['restart_services'] = 'N'
 # NetWorker Client install default attributes
 case node['platform_family']
 when 'windows'
-  default['nw']['client']['path'] = 'C:\omnibus\cache\win_x64\networkr'
+  default['nw']['client']['path'] = 'C:\omnibus\cache\networker\win_x64\networkr'
   default['nw']['client']['package'] = 'lgtoclnt-9.1.0.2.exe'
 when 'rhel'
-  default['nw']['client']['path'] = '/tmp/omnibus/cache/linux_x86_64'
+  default['nw']['client']['path'] = '/tmp/omnibus/cache/networker/linux_x86_64'
   default['nw']['client']['package'] = 'lgtoclnt-9.1.0.2-1.x86_64.rpm'
 end
 default['nw']['client']['create'] = true
