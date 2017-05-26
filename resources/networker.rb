@@ -22,7 +22,6 @@ action :create do
   else
     # Create a new client
     converge_by("Create new client #{new_resource.client_name} on NetWorker server #{server_name}") do
-
       uri = URI.parse("#{node['nw']['api']['uri']}/global/clients")
       token = Base64.encode64("#{node['nw']['api']['user']}:#{node['nw']['api']['pwd']}")
 
@@ -49,14 +48,12 @@ action :create do
       response = http.request(request)
 
       response.code
-
     end
   end
 end
 
 action :backup do
   converge_by("Starting requested backup of client #{client_name} on NetWorker server #{server_name}") do
-
     uri = URI.parse("#{node['nw']['api']['uri']}/global/protectionpolicies/#{policy}/workflows/#{workflow}/op/backup")
 
     token = Base64.encode64("#{node['nw']['api']['user']}:#{node['nw']['api']['pwd']}")
@@ -81,7 +78,6 @@ action :backup do
     response = http.request(request)
 
     response.code
-
   end
 end
 
@@ -104,7 +100,7 @@ action_class.class_eval do
 
     client_list = JSON.parse(response.body)
 
-    if client_list['count'].zero?
+    if client_list['count'] == 0
       false
     else
       true
